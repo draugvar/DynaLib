@@ -23,6 +23,12 @@ int util_print_int(int a)
 	return 0;
 }
 
+int util_print_params(int a, int b)
+{
+	printf("print_int %d %d\n", a, b);
+	return 0;
+}
+
 int close()
 {
 	printf("close\n");

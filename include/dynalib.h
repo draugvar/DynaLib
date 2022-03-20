@@ -30,7 +30,7 @@
 
 namespace dl
 {
-	template<class T>
+	template<typename T>
 	class DynaLib
 	{
 	public:
@@ -114,12 +114,13 @@ namespace dl
 		template<typename ...Args>
 		T callFunction(const char *aFunctionName, Args... aArgs)
 		{
+			typedef T(*FunctionHandler)(Args...);
 			if(functionsMap.find(aFunctionName) != functionsMap.end())
 			{
-				return functionsMap[aFunctionName]();
+				auto function = (FunctionHandler)functionsMap[aFunctionName];
+				return function(aArgs...);
 			}
 
-			typedef T(*FunctionHandler)(Args...);
 			FunctionHandler function;
 			if (!(function = (FunctionHandler) loadSymbol(handle_, aFunctionName)))
 			{
@@ -127,18 +128,15 @@ namespace dl
 				return T(-1);
 			}
 
-			functionsMap[aFunctionName] = [=]() -> T
-			{
-				return function(aArgs...);
-			};
+			functionsMap[aFunctionName] = (void*)function;
 
-			return functionsMap[aFunctionName]();
+			return function(aArgs...);
 		}
 
 	private:
 		void *handle_{nullptr};
 		T(*create_)();
 		T(*destroy_)();
-		std::unordered_map<std::string, std::function<T()>> functionsMap;
+		std::unordered_map<std::string, void*> functionsMap{};
 	};
 }

@@ -8,11 +8,9 @@ extern “C” {
 #endif
 
 int open();
-
 int util_print();
-
 int util_print_int(int a);
-
+int util_print_params(int a, int b);
 int close();
 
 #ifdef __cplusplus

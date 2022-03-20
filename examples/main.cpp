@@ -14,6 +14,5 @@ int main()
 	dl.callFunction("util_print");
 	dl.callFunction("util_print_int", 42);
 	dl.callFunction("util_print_int", 55);
-
-	dl.callFunction("close");
+	dl.callFunction("util_print_params", 66, true, "hello");
 }
