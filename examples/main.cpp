@@ -8,7 +8,7 @@ int main()
 {
 	dl::DynaLib<int> dl;
 
-	dl.open("libutil", "open", "close");
+	dl.open("libutil", "open");
 
 	dl.init();
 	dl.callFunction("util_print");

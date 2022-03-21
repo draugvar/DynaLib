@@ -83,14 +83,14 @@ namespace dl
 		}
 
 	public:
-		bool open(const std::string &aFilename, const char *aCreateSym = "create",
-		          const char *aDestroySym = "destroy")
+		bool open(const std::string &aFilename, const char *aCreateSym = nullptr,
+		          const char *aDestroySym = nullptr)
 		{
 			if (!(handle_ = openLib(aFilename)))
 				return printLibError();
-			if (!(create_ = (T(*)()) loadSymbol(handle_, aCreateSym)))
+			if (aCreateSym != nullptr && !(create_ = (T(*)()) loadSymbol(handle_, aCreateSym)))
 				return printLibError();
-			if (!(destroy_ = (T(*)()) loadSymbol(handle_, aDestroySym)))
+			if (aDestroySym != nullptr && !(destroy_ = (T(*)()) loadSymbol(handle_, aDestroySym)))
 				return printLibError();
 			return true;
 		}
@@ -135,8 +135,8 @@ namespace dl
 
 	private:
 		void *handle_{nullptr};
-		T(*create_)();
-		T(*destroy_)();
+		T(*create_)() = nullptr;
+		T(*destroy_)() = nullptr;
 		std::unordered_map<std::string, void*> functionsMap{};
 	};
 }
