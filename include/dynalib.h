@@ -17,15 +17,14 @@
 
 #include <memory>
 #include <iostream>
+#include <unordered_map>
+#include <any>
+#include <functional>
 
 #if _WIN32
 #include <Windows.h>
 #else
 #include <dlfcn.h> //dlopen
-#include <unordered_map>
-#include <any>
-#include <functional>
-
 #endif
 
 namespace dl
